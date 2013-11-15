@@ -1,0 +1,1 @@
+This directory will be used to hold pages relevant to the FEEDBACK features of the web project.

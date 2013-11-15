@@ -1,0 +1,1 @@
+This directory will be used to hold pages relevant to the USERS features of the web project.
