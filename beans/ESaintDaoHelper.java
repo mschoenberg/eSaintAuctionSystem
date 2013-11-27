@@ -444,6 +444,146 @@ public class ESaintDaoHelper {
 	}
     }
     
+    /**
+     * Will insert a feedback tuple into the BUYER_FEEDBACK table 
+     * for the given itemId.
+     * @param itemId
+     * @param satisfaction
+     * @param paymentPromptness
+     * @param comments
+     * @return true if entered, otherwise false
+     */
+    public boolean insertBuyerFeedback(int itemId, int satisfaction,
+	    int paymentPromptness, String comments){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    String queryString = "INSERT INTO BUYER_FEEDBACK VALUES(?, ?, ?, ?)";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
+	    preparedStatement.setInt(2, satisfaction);
+	    preparedStatement.setInt(3, paymentPromptness);
+	    preparedStatement.setString(4, comments);
+	    
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if(rowsModified > 0){
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else{
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return false;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return false;
+	}
+    }
+    
+    /**
+     * Will insert a feedback tuple into the SELLER_FEEDBACK table 
+     * for the given itemId.
+     * @param itemId
+     * @param satisfaction
+     * @param itemDelivery
+     * @param itemQuality
+     * @param comments
+     * @return true if entered, false if otherwise
+     */
+    public boolean insertSellerFeedback(int itemId, int satisfaction, int itemDelivery,
+	    int itemQuality, String comments){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    String queryString = "INSERT INTO SELLER_FEEDBACK VALUES(?, ?, ?, ?, ?)";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
+	    preparedStatement.setInt(2, satisfaction);
+	    preparedStatement.setInt(3, itemDelivery);
+	    preparedStatement.setInt(4, itemQuality);
+	    preparedStatement.setString(5, comments);
+	    
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if(rowsModified > 0){
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else{
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return false;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return false;
+	}
+    }
+    
+    /**
+     * FIGURE THIS STUFF OUT!
+     * @return Result Set of buyer feedback
+     */
+    public ResultSet getBuyerFeedback(int userId){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    //TODO: FILL OUT QUERY STRING
+	    String queryString = "";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    
+	    return preparedStatement.executeQuery();
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
+    /**
+     * FIGURE THIS STUFF OUT!
+     * @return ResultSet of seller feedback tuples
+     */
+    public ResultSet getSellerFeedback(){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    //TODO: FILL OUT QUERY STRING
+	    String queryString = "";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    
+	    return preparedStatement.executeQuery();
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
     private Connection createConnection() throws ClassNotFoundException, SQLException{
 	Class.forName("com.mysql.jdbc.Driver");
 	return (DriverManager.getConnection(databaseUrl, username, password));
