@@ -1,3 +1,4 @@
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -5,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
 
 /**
  * This class will be used as the main method of querying/updating the
@@ -191,6 +193,72 @@ public class ESaintDaoHelper {
     }
     
     /**
+     * Will update the tuple in USERS of the passed userId with the given parameters.
+     * @param userId
+     * @param username
+     * @param password
+     * @param email
+     * @param phoneNum
+     * @param firstName
+     * @param lastName
+     * @param cardNum
+     * @param cardType
+     * @param cardExpMon
+     * @param cardExpYear
+     * @param creatorId
+     * @return true if modified, otherwise false
+     */
+    public boolean updateUser(int userId, String username, String password, String email, 
+	    String phoneNum, String firstName, String lastName, String cardNum,
+	    String cardType, String cardExpMon, String cardExpYear, int creatorId){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    String queryString = "UPDATE USER SET ";
+	    queryString +=	 "USERNAME = ?, PASSWORD = ?, EMAIL = ?, PHONE_NUMBER = ?, ";
+	    queryString +=	 "FIRST_NAME = ?, LAST_NAME = ?, CARD_NUMBER = ?, CARD_TYPE = ?, ";
+	    queryString +=	 "CARD_EXP_MONTH = ?, CARD_EXP_YEAR = ?, CREATOR_ID = ?";
+	    queryString +=	 "WHERE USER_ID = ?";
+	    
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+	    preparedStatement.setString(2, password);
+	    preparedStatement.setString(3, email);
+	    preparedStatement.setString(4, phoneNum);
+	    preparedStatement.setString(5, firstName);
+	    preparedStatement.setString(6, lastName);
+	    preparedStatement.setString(7, cardNum);
+	    preparedStatement.setString(8, cardType);
+	    preparedStatement.setString(9, cardExpMon);
+	    preparedStatement.setString(10, cardExpYear);
+	    preparedStatement.setInt(11, creatorId);
+	    preparedStatement.setInt(12, userId);
+
+	    int rowsModified = preparedStatement.executeUpdate();
+	    
+	    if(rowsModified > 0){
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else{
+		preparedStatement.close();
+		myConnection.close();
+	    	return false;
+	    }
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return false;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return false;
+	}
+    }
+    
+    /**
      * Will return a result set containing all data in the COMMISSION_REPORT view.
      * @return result set of data in COMMISSION_REPORT
      */
@@ -263,6 +331,7 @@ public class ESaintDaoHelper {
 	    preparedStatement.setString(5, description);
 	    preparedStatement.setDouble(6, startPrice);
 	    preparedStatement.setInt(7, creatorId);
+	    //TODO: FIGURE OUT HOW TO INSERT A PHOTO/BLOB through the JDBC
 	    
 	    int rowsModified = preparedStatement.executeUpdate();
 	    if(rowsModified > 0){
@@ -283,6 +352,95 @@ public class ESaintDaoHelper {
 	catch(SQLException se){
 	    se.printStackTrace();
 	    return false;
+	}
+    }
+    
+    /**
+     * Will update the tuple in ITEM of the passed itemId with the given parameters.
+     * @param itemId
+     * @param itemName
+     * @param category
+     * @param auctionStart
+     * @param auctionEnd
+     * @param description
+     * @param startPrice
+     * @param creatorId
+     * @return true if entered, otherwise false
+     */
+    public boolean updateItem(int itemId, String itemName, String category, Timestamp auctionStart,
+	    Timestamp auctionEnd, String description, double startPrice, int creatorId){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    String queryString = "UPDATE ITEM SET ";
+	    queryString +=	 "ITEM_NAME = ?, CATEGORY = ?, AUCTION_START = ?, AUCTION_END = ?, ";
+	    queryString +=	 "DESCRIPTION = ?, START_PRICE = ?, CREATOR_ID = ? ";
+	    queryString +=	 "WHERE ITEM_ID = ?";
+	    
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, itemName);
+	    preparedStatement.setString(2, category);
+	    preparedStatement.setTimestamp(3, auctionStart);
+	    preparedStatement.setTimestamp(4, auctionEnd);
+	    preparedStatement.setString(5, description);
+	    preparedStatement.setDouble(6, startPrice);
+	    preparedStatement.setInt(7, creatorId);
+	    preparedStatement.setInt(8, itemId);
+	    //TODO: FIGURE OUT HOW TO INSERT A PHOTO/BLOB through the JDBC
+	    
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if(rowsModified > 0){
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else{
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return false;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return false;
+	}
+    }
+    
+    /**
+     * Will call on the stored function insertAuctionBid to insert a bid tuple
+     * into the AUCTIONS table.
+     * @param itemId
+     * @param userId
+     * @param maximumBid
+     * @return will return 0 if bid entered successfully, -1 if maxiumumBid is less than the 
+     * current bid, -2 if the auction is not currently open, or -3 if another error occured
+     */
+    public int insertAuctionBid(int itemId, int userId, double maximumBid){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    CallableStatement callableStatement = myConnection.prepareCall("{? = call insertAuctionBid(?, ?, ?)}");
+	    callableStatement.registerOutParameter(1, Types.INTEGER);
+	    callableStatement.setInt(2, itemId);
+	    callableStatement.setInt(3, userId);
+	    callableStatement.setDouble(4, maximumBid);
+	    
+	    callableStatement.execute();
+	    
+	    return callableStatement.getInt(1);
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return -3;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return -3;
 	}
     }
     
