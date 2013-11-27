@@ -1,7 +1,9 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 
 /**
@@ -29,12 +31,25 @@ public class ESaintDaoHelper {
 	try{
 	    Connection myConnection = createConnection();
 	    
-	    if(true){ //if result set contains the admin, return true
-		//TODO: FINISH THIS -- SELECT USERNAME, PASSWORD FROM USERS WHERE USERNAME = username AND PASSWORD = password
+	    String queryString = "SELECT USERNAME ";
+	    queryString +=	 "FROM ADMINISTRATOR ";
+	    queryString +=	 "WHERE USERNAME = ? AND PASSWORD = ?";
+	    
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+	    preparedStatement.setString(2, password);
+	    
+	    ResultSet resultSet = preparedStatement.executeQuery();
+	    if( resultSet.getString(1).equals(username) ){ //if result set contains the admin, return true
+		resultSet.close();
+		preparedStatement.close();
 		myConnection.close();
 		return true;
 	    }
 	    else{ //not found, return false
+		resultSet.close();
+		preparedStatement.close();
 		myConnection.close();
 		return false;
 	    }
@@ -59,12 +74,25 @@ public class ESaintDaoHelper {
 	try{
 	    Connection myConnection = createConnection();
 	    
-	    if(true){ //if result set contains the user, return true
-		//TODO: FINISH THIS -- SELECT USERNAME, PASSWORD FROM USERS WHERE USERNAME = username AND PASSWORD = password
+	    String queryString = "SELECT USERNAME ";
+	    queryString +=	 "FROM USERS ";
+	    queryString +=	 "WHERE USERNAME = ? AND PASSWORD = ?";
+	    
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+	    preparedStatement.setString(2, password);
+	    
+	    ResultSet resultSet = preparedStatement.executeQuery();
+	    if( resultSet.getString(1).equals(username) ){ //if result set contains the user, return true
+		resultSet.close();
+		preparedStatement.close();
 		myConnection.close();
 		return true;
 	    }
 	    else{ //not found, return false
+		resultSet.close();
+		preparedStatement.close();
 		myConnection.close();
 		return false;
 	    }
@@ -86,9 +114,11 @@ public class ESaintDaoHelper {
     public ResultSet getAllUsers(){
 	try{
 	    Connection myConnection = createConnection();
-	    //TODO: FINISH THIS -- SELECT USER_ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD FROM USERS
-	    myConnection.close();
-	    return null;
+	    Statement statement = myConnection.createStatement();
+	    
+	    String queryString = "SELECT USER_ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD FROM USERS";
+	    
+	    return statement.executeQuery(queryString);
 	}
 	catch(ClassNotFoundException ce){
 	    ce.printStackTrace();
@@ -120,10 +150,35 @@ public class ESaintDaoHelper {
 	    String cardType, String cardExpMon, String cardExpYear, int creatorId){
 	try{
 	    Connection myConnection = createConnection();
-	    //TODO: FINISH THIS -- INSERT INTO USERS VALUES(DEFAULT, username, password, email, phoneNum, firstName, lastName,
-	    //cardNum, cardType, cardExpMon, cardExpYear, creatorId
-	    myConnection.close();
-	    return true;
+	    
+	    String queryString = "INSERT INTO USERS VALUES(DEFAULT,?,?,?,?,?,?,?,?,?,?,?)";
+	    
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+	    preparedStatement.setString(2, password);
+	    preparedStatement.setString(3, email);
+	    preparedStatement.setString(4, phoneNum);
+	    preparedStatement.setString(5, firstName);
+	    preparedStatement.setString(6, lastName);
+	    preparedStatement.setString(7, cardNum);
+	    preparedStatement.setString(8, cardType);
+	    preparedStatement.setString(9, cardExpMon);
+	    preparedStatement.setString(10, cardExpYear);
+	    preparedStatement.setInt(11, creatorId);
+
+	    int rowsModified = preparedStatement.executeUpdate();
+	    
+	    if(rowsModified > 0){
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else{
+		preparedStatement.close();
+		myConnection.close();
+	    	return false;
+	    }
 	}
 	catch(ClassNotFoundException ce){
 	    ce.printStackTrace();
@@ -142,9 +197,11 @@ public class ESaintDaoHelper {
     public ResultSet getCommissionReport(){
 	try{
 	    Connection myConnection = createConnection();
-	    //TODO: FINISH THIS -- FROM COMISSION_REPORT
-	    myConnection.close();
-	    return null;
+	    Statement statement = myConnection.createStatement();
+	    
+	    String queryString = "SELECT * FROM COMMISSION_REPORT";
+	    
+	    return statement.executeQuery(queryString);
 	}
 	catch(ClassNotFoundException ce){
 	    ce.printStackTrace();
@@ -163,9 +220,11 @@ public class ESaintDaoHelper {
     public ResultSet getSalesReport(){
 	try{
 	    Connection myConnection = createConnection();
-	    //TODO: FINISH THIS -- SELECT * FROM SALES_REPORT
-	    myConnection.close();
-	    return null;
+	    Statement statement = myConnection.createStatement();
+	    
+	    String queryString = "SELECT * FROM SALES_REPORT";
+	    
+	    return statement.executeQuery(queryString);
 	}
 	catch(ClassNotFoundException ce){
 	    ce.printStackTrace();
@@ -177,14 +236,45 @@ public class ESaintDaoHelper {
 	}
     }
     
+    /**
+     * Will insert a new item tuple into the ITEM table.
+     * @param itemName
+     * @param category
+     * @param auctionStart
+     * @param auctionEnd
+     * @param description
+     * @param startPrice
+     * @param creatorId
+     * @return true if entered, otherwise false
+     */
     public boolean insertItem(String itemName, String category, Timestamp auctionStart,
 	    Timestamp auctionEnd, String description, double startPrice, int creatorId){
 	try{
 	    Connection myConnection = createConnection();
-	    //TODO: FINISH THIS -- INSERT INTO ITEM VALUES(itemName, category, auctionStart, auctionEnd
-	    //description, startPrice, creatorId)
-	    myConnection.close();
-	    return true;
+	    
+	    String queryString = "INSERT INTO ITEM VALUES(?,?,?,?,?,?,?)";
+	    
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, itemName);
+	    preparedStatement.setString(2, category);
+	    preparedStatement.setTimestamp(3, auctionStart);
+	    preparedStatement.setTimestamp(4, auctionEnd);
+	    preparedStatement.setString(5, description);
+	    preparedStatement.setDouble(6, startPrice);
+	    preparedStatement.setInt(7, creatorId);
+	    
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if(rowsModified > 0){
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else{
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
 	}
 	catch(ClassNotFoundException ce){
 	    ce.printStackTrace();
