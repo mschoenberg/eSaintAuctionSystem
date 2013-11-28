@@ -110,6 +110,191 @@ public class ESaintDaoHelper {
     }
     
     /**
+     * Will return a list of all items in the ITEMS table.
+     * @return A Result Set of all items.
+     */
+    public ResultSet getAllItems(){
+	try{
+	    Connection myConnection = createConnection();
+	    Statement statement = myConnection.createStatement();
+	    
+	    String queryString = "SELECT * FROM ITEM";
+	    
+	    return statement.executeQuery(queryString);
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
+    /**
+     * Get a single item from the ITEMS table specified by itemId.
+     * @param itemId
+     * @return A Result Set containing a single item tuple
+     */
+    public ResultSet getItem(int itemId){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    String queryString = "SELECT * FROM ITEM WHERE ITEM_ID = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
+	    
+	    return preparedStatement.executeQuery();
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
+    /**
+     * Will return all the tuples in AUCTIONS for an item specified by itemId.
+     * @param itemId
+     * @return A Result Set of the bidders in AUCTIONS for a given itemId
+     */
+    public ResultSet getItemBidders(int itemId){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    //TODO: NEED TO INCLUDE THE BIDDER RATING IN THIS RESULT SET SOMEHOW
+	    String queryString = "SELECT * FROM AUCTIONS WHERE ITEM_ID = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
+	    
+	    return preparedStatement.executeQuery();
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
+    /**
+     * TODO:  FIGURE OUT THE QUERY AND PARAMETERS FOR THIS
+     * Will return a set of tuples in ITEM that match the given search parameters
+     * @return A Result Set of matched tuples in ITEM
+     */
+    public ResultSet searchItems(){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    //TODO: FIGURE OUT THE PARAMETERS AND QUERY FOR THIS
+	    String queryString = "";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    
+	    return preparedStatement.executeQuery();
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
+    /**
+     * Will return a list of tuples in ITEM for where a userId has left a bid on that item
+     * @param userId that is looking for the items bid on
+     * @return A Result Set of items the userId has bid on
+     */
+    public ResultSet getItemsBidOn(int userId){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    String queryString = "SELECT * FROM ITEM WHERE ITEM_ID IN ";
+	    queryString +=	 "(SELECT ITEM_ID FROM AUCTIONS WHERE USER_ID = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
+	    
+	    return preparedStatement.executeQuery();
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
+    /**
+     * Will return a list of tuples in ITEM for the given userId that was the creator of the
+     * item, and where the status of the item is sold.  In effect, it returns a list of all
+     * sold items for a userId.
+     * @param userId
+     * @return A Result Set of the sold items.
+     */
+    public ResultSet getItemsSold(int userId){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    String queryString = "SELECT * FROM ITEM WHERE CREATOR_ID = ? AND STATUS = 'SOLD'";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
+	    
+	    return preparedStatement.executeQuery();
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
+    /**
+     * Will return the tuples in ITEM for a given userId that's value is found in WINNNER_ID
+     * and where the item STATUS is 'SOLD'.  In effect, this will return all the tiems that a
+     * user has won in the auction system.
+     * @param userId
+     * @return
+     */
+    public ResultSet getItemsWon(int userId){
+	try{
+	    Connection myConnection = createConnection();
+	    
+	    String queryString = "SELECT * FROM ITEM WHERE WINNER_ID = ? AND STATUS = 'SOLD'";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
+	    
+	    return preparedStatement.executeQuery();
+	}
+	catch(ClassNotFoundException ce){
+	    ce.printStackTrace();
+	    return null;
+	}
+	catch(SQLException se){
+	    se.printStackTrace();
+	    return null;
+	}
+    }
+    
+    /**
      * Will return all the users within the USERS table.
      * @return result set with all the users
      */
@@ -535,17 +720,19 @@ public class ESaintDaoHelper {
     }
     
     /**
-     * FIGURE THIS STUFF OUT!
+     * Will return the tuples in BUYER_FEEDBACK for the given userId.
+     * @param userId
      * @return Result Set of buyer feedback
      */
     public ResultSet getBuyerFeedback(int userId){
 	try{
 	    Connection myConnection = createConnection();
-	    
-	    //TODO: FILL OUT QUERY STRING
-	    String queryString = "";
+
+	    String queryString = "SELECT * FROM BUYER_FEEDBACK WHERE ITEM_ID IN ";
+	    queryString +=	 "(SELECT ITEM_ID FROM ITEM WHERE WINNER_ID = ?)";
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
 	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
 	    
 	    return preparedStatement.executeQuery();
 	}
@@ -560,17 +747,19 @@ public class ESaintDaoHelper {
     }
     
     /**
-     * FIGURE THIS STUFF OUT!
-     * @return ResultSet of seller feedback tuples
+     * Will return the tuples in SELLER_FEEDBACK for the given userId.
+     * @param userId
+     * @return Result Set of seller feedback
      */
-    public ResultSet getSellerFeedback(){
+    public ResultSet getSellerFeedback(int userId){
 	try{
 	    Connection myConnection = createConnection();
 	    
-	    //TODO: FILL OUT QUERY STRING
-	    String queryString = "";
+	    String queryString = "SELECT * FROM SELLER_FEEDBACK WHERE ITEM_ID IN ";
+	    queryString += 	 "(SELECT ITEM_ID FROM ITEM WEHRE CREATOR_ID = ?)";
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
 	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
 	    
 	    return preparedStatement.executeQuery();
 	}
