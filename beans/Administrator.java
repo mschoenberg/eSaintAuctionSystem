@@ -6,12 +6,12 @@
  */
 public class Administrator {
     
-    /* administrator form fields */
+    /* administrator bean form fields */
     private int userId;
     private String username;
     private String password;
     
-    /* other admin-relevant fields */
+    /* other admin  related fields */
     private boolean isLoggedIn = false;
     
     public Administrator(){
@@ -63,4 +63,3 @@ public class Administrator {
     }
 
 }
-

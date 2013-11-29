@@ -6,7 +6,7 @@
  */
 public class User {
 
-    /* user form fields */
+    /* user bean form fields */
     private int userId;
     private String username;
     private String password;
@@ -20,7 +20,7 @@ public class User {
     private String cardExpYear;
     private int creatorId;
 
-    /* other user-relevant fields */
+    /* other user related fields */
     private boolean isLoggedIn = false;
 
     public User() {
@@ -144,4 +144,3 @@ public class User {
     }
 
 }
-
