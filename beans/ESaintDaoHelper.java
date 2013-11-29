@@ -1,3 +1,4 @@
+import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -501,11 +502,11 @@ public class ESaintDaoHelper {
      * @return true if entered, otherwise false
      */
     public boolean insertItem(String itemName, String category, Timestamp auctionStart,
-	    Timestamp auctionEnd, String description, double startPrice, int creatorId){
+	    Timestamp auctionEnd, String description, double startPrice, int creatorId, Blob photo){
 	try{
 	    Connection myConnection = createConnection();
 	    
-	    String queryString = "INSERT INTO ITEM VALUES(?,?,?,?,?,?,?)";
+	    String queryString = "INSERT INTO ITEM VALUES(?,?,?,?,?,?,?,?)";
 	    
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
 	    preparedStatement.clearParameters();
@@ -516,7 +517,7 @@ public class ESaintDaoHelper {
 	    preparedStatement.setString(5, description);
 	    preparedStatement.setDouble(6, startPrice);
 	    preparedStatement.setInt(7, creatorId);
-	    //TODO: FIGURE OUT HOW TO INSERT A PHOTO/BLOB through the JDBC
+	    preparedStatement.setBlob(8, photo);
 	    
 	    int rowsModified = preparedStatement.executeUpdate();
 	    if(rowsModified > 0){
@@ -553,13 +554,13 @@ public class ESaintDaoHelper {
      * @return true if entered, otherwise false
      */
     public boolean updateItem(int itemId, String itemName, String category, Timestamp auctionStart,
-	    Timestamp auctionEnd, String description, double startPrice, int creatorId){
+	    Timestamp auctionEnd, String description, double startPrice, int creatorId, Blob photo){
 	try{
 	    Connection myConnection = createConnection();
 	    
 	    String queryString = "UPDATE ITEM SET ";
 	    queryString +=	 "ITEM_NAME = ?, CATEGORY = ?, AUCTION_START = ?, AUCTION_END = ?, ";
-	    queryString +=	 "DESCRIPTION = ?, START_PRICE = ?, CREATOR_ID = ? ";
+	    queryString +=	 "DESCRIPTION = ?, START_PRICE = ?, CREATOR_ID = ?, PHOTO = ? ";
 	    queryString +=	 "WHERE ITEM_ID = ?";
 	    
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
@@ -572,7 +573,7 @@ public class ESaintDaoHelper {
 	    preparedStatement.setDouble(6, startPrice);
 	    preparedStatement.setInt(7, creatorId);
 	    preparedStatement.setInt(8, itemId);
-	    //TODO: FIGURE OUT HOW TO INSERT A PHOTO/BLOB through the JDBC
+	    preparedStatement.setBlob(9, photo);
 	    
 	    int rowsModified = preparedStatement.executeUpdate();
 	    if(rowsModified > 0){
