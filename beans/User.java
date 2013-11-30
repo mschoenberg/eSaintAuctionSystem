@@ -27,7 +27,7 @@ public class User {
 
     }
     
-    public boolean login(String username, String password){
+    public boolean login(){
 	ESaintDaoHelper dao = new ESaintDaoHelper();
 	
 	if( dao.loginUser(username, password) ){  //login is good, login

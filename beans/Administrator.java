@@ -18,7 +18,7 @@ public class Administrator {
 	
     }
     
-    public boolean login(String username, String password){
+    public boolean login(){
 	ESaintDaoHelper dao = new ESaintDaoHelper();
 	
 	if( dao.loginAdmin(username, password) ){  //login is good, login
