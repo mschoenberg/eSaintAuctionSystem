@@ -1,15 +1,27 @@
+<%@ page language="java"%>
+<%@ page import="java.util.*"%>
+
 <html>
+
 <head>
 <meta content="text/html; charset=ISO-8859-1"
 http-equiv="content-type">
 <title>Login -- eSaint Auction System -- One Hit Wonders</title>
-
 </head>
+
 <body>
 <center>
 <font size="14" color="red">ESAINT AUCTION SYSTEM</font>
 <br/>
 <br/>
+
+<%
+  int errorNum = request.getParameter("error");
+  if( errorNum == -1 ){
+    out.println("<font color="red" size="12">An error occured, please try again!</font><br/><br/>");
+  }
+%>
+
 Please enter the Following:
 <br/>
 <br/>
