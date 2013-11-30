@@ -10,7 +10,7 @@
 	<jsp:setProperty name="admin" property="*"/> 
 <% 
 	  if ( admin.login() ){
-	    response.sendRedirect("admin_portal.jsp");
+	    response.sendRedirect("administrator/admin_portal.jsp");
 	  }
 	  else{
 	    response.sendRedirect("login.jsp?error=-1"); //change the login page to display an error
@@ -22,7 +22,7 @@
 	<jsp:setProperty name="user" property="*"/> 
 <%	
 	  if ( user.login() ){
-	    response.sendRedirect("user_portal.jsp");
+	    response.sendRedirect("user/user_portal.jsp");
 	  }
 	  else{
 	    response.sendRedirect("login.jsp?error=-1"); //change the login page to display an error
