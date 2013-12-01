@@ -38,6 +38,15 @@ public class User {
 	    return false;
 	}
     }
+	
+	public void logout(){
+	  if( isLoggedIn == false ){
+	    throw new IllegalStateException("The user is not logged in!");
+	  }
+	  else{
+	    isLoggedIn = false;
+	  }
+	}
 
     public int getUserId() {
 	return userId;

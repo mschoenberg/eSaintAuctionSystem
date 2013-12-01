@@ -29,6 +29,15 @@ public class Administrator {
 	    return false;
 	}
     }
+	
+	public void logout(){
+	  if( isLoggedIn == false ){
+	    throw new IllegalStateException("The user is not logged in!");
+	  }
+	  else{
+	    isLoggedIn = false;
+	  }
+	}
 
     private int getUserId() {
         return userId;
