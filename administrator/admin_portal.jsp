@@ -20,7 +20,7 @@
 	<input type="submit" value="User Management">
 </form>
 
-<form method ="link" action="report.jsp">
+<form method ="link" action="reports.jsp">
 	<input type="submit" value="Reports">
 </form>
 
