@@ -18,17 +18,22 @@ http-equiv="content-type">
 <br/>
 
 <%
-
-  int errorNum = request.getParameter("error"); //sent from login_action.jsp
-  if( errorNum == -1 ){
-    out.println("<font color="red" size="12">An error occured, please try again!</font><br/><br/>");
+  try{
+    int errorNum = Integer.parseInt(request.getParameter("error")); //sent from login_action.jsp
+    if( errorNum == -1 ){
+      out.println("<font color=\"red\" size=\"12\">An error occured, please try again!</font><br/><br/>");
+    }
   }
+  catch(Exception e){}
   
-  String name = request.getParameter("name); //sent from logout_action.jsp
-  if( !name.equals(null) ){
-    out.println("<font color="red" size"12">Thanks for shopping, " + name + "!" +
-	    "You are now logged out of the eSaint Auction System!");
+  try{
+    String name = request.getParameter("name"); //sent from logout_action.jsp
+    if( !name.equals(null) ){
+      out.println("<font color=\"red\" size=\"12\">Thanks for shopping, " + name + "!" +
+	      "You are now logged out of the eSaint Auction System!");
+    }
   }
+  catch(Exception e){}
   
 %>
 
