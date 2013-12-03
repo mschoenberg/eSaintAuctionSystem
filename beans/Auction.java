@@ -1,9 +1,12 @@
 package awzurn.eSaint;
 
-public class Auction{
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+public class Auction implements Serializable{
 	private int itemId;
 	private int userId;
-	private double MaximumBid;
+	private double maximumBid;
 	private Timestamp bidTime;
 	
 	public Auction(){

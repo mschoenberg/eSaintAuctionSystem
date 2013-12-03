@@ -1,5 +1,7 @@
 package awzurn.eSaint;
 
+import java.io.Serializable;
+
 public class BuyerFeedback implements Serializable{
 	private int itemId;
 	private int satisfaction;

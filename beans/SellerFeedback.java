@@ -1,6 +1,8 @@
 package awzurn.eSaint;
 
-public class SellerFeedback{
+import java.io.Serializable;
+
+public class SellerFeedback implements Serializable{
 	private int itemId;
 	private int satisfaction;
 	private int itemDelivery;
@@ -28,7 +30,7 @@ public class SellerFeedback{
 	}
 	
 	public int getItemDelivery(){
-		return itemDelivery();
+		return itemDelivery;
 	}
 	
 	public void setItemDelivery(int itemDelivery){
