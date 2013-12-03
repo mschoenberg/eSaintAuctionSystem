@@ -1,74 +1,79 @@
+package awzurn.eSaint;
+
+import java.io.*;
+
 /**
  * @author Andrew Zurn
  * @version 0.1
  * 
- * This class will be used as the bean class for a Administrator in the eSaintAuctionSystem.
+ *          This class will be used as the bean class for a Administrator in the
+ *          eSaintAuctionSystem.
  */
-public class Administrator {
-    
+public class Administrator implements Serializable {
+
     /* administrator bean form fields */
     private int userId;
     private String username;
     private String password;
-    
-    /* other admin  related fields */
+
+    /* other admin related fields */
     private boolean isLoggedIn = false;
-    
-    public Administrator(){
-	
+
+    public Administrator() {
+
     }
-    
-    public boolean login(){
+
+    public boolean login() {
 	ESaintDaoHelper dao = new ESaintDaoHelper();
-	
-	if( dao.loginAdmin(username, password) ){  //login is good, login
+
+	if (dao.loginAdmin(username, password)) { // login is good, login
 	    this.isLoggedIn = true;
 	    return true;
 	}
-	else{  //return false
+	else { // return false
 	    return false;
 	}
     }
-	
-	public void logout(){
-	  if( isLoggedIn == false ){
+
+    public void logout() {
+	if (isLoggedIn == false) {
 	    throw new IllegalStateException("The user is not logged in!");
-	  }
-	  else{
-	    isLoggedIn = false;
-	  }
 	}
-
-    private int getUserId() {
-        return userId;
+	else {
+	    isLoggedIn = false;
+	}
     }
 
-    private void setUserId(int userId) {
-        this.userId = userId;
+    public int getUserId() {
+	return userId;
     }
 
-    private String getUsername() {
-        return username;
+    public void setUserId(int userId) {
+	this.userId = userId;
     }
 
-    private void setUsername(String username) {
-        this.username = username;
+    public String getUsername() {
+	return username;
     }
 
-    private String getPassword() {
-        return password;
+    public void setUsername(String username) {
+	this.username = username;
     }
 
-    private void setPassword(String password) {
-        this.password = password;
+    public String getPassword() {
+	return password;
     }
 
-    private boolean isLoggedIn() {
-        return isLoggedIn;
+    public void setPassword(String password) {
+	this.password = password;
     }
 
-    private void setLoggedIn(boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
+    public boolean isLoggedIn() {
+	return isLoggedIn;
+    }
+
+    public void setLoggedIn(boolean isLoggedIn) {
+	this.isLoggedIn = isLoggedIn;
     }
 
 }
