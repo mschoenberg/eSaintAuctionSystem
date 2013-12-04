@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.sql.*"%>
-<jsp:useBean id="admin" class="awzurn.Administrator" scope="session"/>
+<jsp:useBean id="admin" class="dgwee.eSaint.Administrator" scope="session"/>
 <html>
 
 <head>
