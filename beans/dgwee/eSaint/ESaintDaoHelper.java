@@ -225,7 +225,7 @@ public class ESaintDaoHelper implements Serializable {
 	    Connection myConnection = createConnection();
 
 	    String queryString = "SELECT * FROM ITEM WHERE ITEM_ID IN ";
-	    queryString += "(SELECT ITEM_ID FROM AUCTIONS WHERE USER_ID = ?";
+	    queryString += "(SELECT ITEM_ID FROM AUCTIONS WHERE USER_ID = ?)";
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
 	    preparedStatement.clearParameters();
 	    preparedStatement.setInt(1, userId);
