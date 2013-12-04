@@ -2,33 +2,62 @@ package dgwee.eSaint.test;
 
 import static org.junit.Assert.*;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.junit.Test;
 
+import dgwee.eSaint.ESaintDaoHelper;
+
 public class ESaintDaoHelperTest {
+    private ESaintDaoHelper dao = new ESaintDaoHelper();
 
     @Test
-    public void testLoginAdmin(){
+    public void testLoginAdmin() throws ClassNotFoundException, SQLException{
+	String username = "Foo";
+	String password = "Bar";
 	
+	boolean returnValue = dao.loginAdmin(username, password);
+	assertTrue(returnValue);
     }
     
     @Test
-    public void testLoginUser(){
+    public void testLoginUser() throws ClassNotFoundException, SQLException{
+	String username = "awzurn";
+	String password = "awzurn";
 	
+	boolean returnValue = dao.loginUser(username, password);
+	assertTrue(returnValue);
     }
     
     @Test
-    public void testGetAllItems(){
+    public void testGetAllItems() throws ClassNotFoundException, SQLException{
+	ResultSet resultSet = dao.getAllItems();
 	
+	if( !resultSet.next() ){
+	    fail("No items in the result set!");
+	}
     }
     
     @Test
-    public void testGetItem(){
+    public void testGetItem() throws ClassNotFoundException, SQLException{
+	ResultSet resultSet = dao.getItem(1);
 	
+	if ( !resultSet.next() ){
+	    fail("No item was returned in the result set");
+	}
+	if ( resultSet.getInt(1) != 1 ) {
+	    fail("The returned item was not the requested item.");
+	}
     }
     
     @Test
-    public void testGetItemBidders(){
+    public void testGetItemBidders() throws ClassNotFoundException, SQLException{
+	ResultSet resultSet = dao.getItemBidders(1);
 	
+	if ( !resultSet.next() ){
+	    fail("No item was returned in the result set");
+	}
     }
     
     @Test

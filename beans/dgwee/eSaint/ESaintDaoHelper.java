@@ -50,7 +50,7 @@ public class ESaintDaoHelper implements Serializable {
 	    preparedStatement.setString(2, password);
 
 	    ResultSet resultSet = preparedStatement.executeQuery();
-	    if (resultSet.getString(1).equals(username)) { // if result set contains the admin,
+	    if ( resultSet.next() ) { // if result set contains the admin,
 							   // return true
 		resultSet.close();
 		preparedStatement.close();
@@ -93,7 +93,7 @@ public class ESaintDaoHelper implements Serializable {
 	    preparedStatement.setString(2, password);
 
 	    ResultSet resultSet = preparedStatement.executeQuery();
-	    if (resultSet.getString(1).equals(username)) { // if result set contains the user,
+	    if ( resultSet.next() ) { // if result set contains the user,
 							   // return true
 		resultSet.close();
 		preparedStatement.close();
