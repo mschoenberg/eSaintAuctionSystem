@@ -33,43 +33,43 @@ public class ESaintDaoHelper implements Serializable {
      * @param username
      * @param password
      * @return true if found, false otherwise.
+     * @throws ClassNotFoundException 
+     * @throws SQLException 
      */
-    public boolean loginAdmin(String username, String password) {
- try {
-     Connection myConnection = createConnection();
+    public boolean loginAdmin(String username, String password) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "SELECT USERNAME ";
-     queryString += "FROM ADMINISTRATOR ";
-     queryString += "WHERE USERNAME = ? AND PASSWORD = ?";
+	    String queryString = "SELECT USERNAME ";
+	    queryString += "FROM ADMINISTRATOR ";
+	    queryString += "WHERE USERNAME = ? AND PASSWORD = ?";
 
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setString(1, username);
-     preparedStatement.setString(2, password);
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+	    preparedStatement.setString(2, password);
 
-     ResultSet resultSet = preparedStatement.executeQuery();
-     if (resultSet.getString(1).equals(username)) { // if result set contains the admin,
-          // return true
-  resultSet.close();
-  preparedStatement.close();
-  myConnection.close();
-  return true;
-     }
-     else { // not found, return false
-  resultSet.close();
-  preparedStatement.close();
-  myConnection.close();
-  return false;
-     }
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return false;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return false;
- }
+	    ResultSet resultSet = preparedStatement.executeQuery();
+	    if (resultSet.getString(1).equals(username)) { // if result set contains the admin,
+							   // return true
+		resultSet.close();
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else { // not found, return false
+		resultSet.close();
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -79,41 +79,40 @@ public class ESaintDaoHelper implements Serializable {
      * @param password
      * @return true if found, false otherwise.
      */
-    public boolean loginUser(String username, String password) {
- try {
-     Connection myConnection = createConnection();
+    public boolean loginUser(String username, String password) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "SELECT USERNAME ";
-     queryString += "FROM USERS ";
-     queryString += "WHERE USERNAME = ? AND PASSWORD = ?";
+	    String queryString = "SELECT USERNAME ";
+	    queryString += "FROM USERS ";
+	    queryString += "WHERE USERNAME = ? AND PASSWORD = ?";
 
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setString(1, username);
-     preparedStatement.setString(2, password);
-     
-     ResultSet resultSet = preparedStatement.executeQuery();
-     if(resultSet.next()){
-       resultSet.close();
-       preparedStatement.close();
-       myConnection.close();
-       return true;
-     }
-     else { // not found, return false
-       resultSet.close();
-       preparedStatement.close();
-       myConnection.close();
-       return false;
-     }
- }
- catch (ClassNotFoundException ce) {
-   ce.printStackTrace();
-     return false;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return false;
- }
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+	    preparedStatement.setString(2, password);
+
+	    ResultSet resultSet = preparedStatement.executeQuery();
+	    if (resultSet.getString(1).equals(username)) { // if result set contains the user,
+							   // return true
+		resultSet.close();
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else { // not found, return false
+		resultSet.close();
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -121,23 +120,21 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return A Result Set of all items.
      */
-    public ResultSet getAllItems() {
- try {
-     Connection myConnection = createConnection();
-     Statement statement = myConnection.createStatement();
+    public ResultSet getAllItems() throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
+	    Statement statement = myConnection.createStatement();
 
-     String queryString = "SELECT * FROM ITEM";
+	    String queryString = "SELECT * FROM ITEM";
 
-     return statement.executeQuery(queryString);
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return statement.executeQuery(queryString);
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -146,25 +143,23 @@ public class ESaintDaoHelper implements Serializable {
      * @param itemId
      * @return A Result Set containing a single item tuple
      */
-    public ResultSet getItem(int itemId) {
- try {
-     Connection myConnection = createConnection();
+    public ResultSet getItem(int itemId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "SELECT * FROM ITEM WHERE ITEM_ID = ?";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, itemId);
+	    String queryString = "SELECT * FROM ITEM WHERE ITEM_ID = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
 
-     return preparedStatement.executeQuery();
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -173,26 +168,24 @@ public class ESaintDaoHelper implements Serializable {
      * @param itemId
      * @return A Result Set of the bidders in AUCTIONS for a given itemId
      */
-    public ResultSet getItemBidders(int itemId) {
- try {
-     Connection myConnection = createConnection();
+    public ResultSet getItemBidders(int itemId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     // TODO: NEED TO INCLUDE THE BIDDER RATING IN THIS RESULT SET SOMEHOW
-     String queryString = "SELECT * FROM AUCTIONS WHERE ITEM_ID = ?";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, itemId);
+	    // TODO: NEED TO INCLUDE THE BIDDER RATING IN THIS RESULT SET SOMEHOW
+	    String queryString = "SELECT * FROM AUCTIONS WHERE ITEM_ID = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
 
-     return preparedStatement.executeQuery();
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -201,25 +194,23 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return A Result Set of matched tuples in ITEM
      */
-    public ResultSet searchItems() {
- try {
-     Connection myConnection = createConnection();
+    public ResultSet searchItems() throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     // TODO: FIGURE OUT THE PARAMETERS AND QUERY FOR THIS
-     String queryString = "";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
+	    // TODO: FIGURE OUT THE PARAMETERS AND QUERY FOR THIS
+	    String queryString = "";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
 
-     return preparedStatement.executeQuery();
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -229,26 +220,24 @@ public class ESaintDaoHelper implements Serializable {
      *            that is looking for the items bid on
      * @return A Result Set of items the userId has bid on
      */
-    public ResultSet getItemsBidOn(int userId) {
- try {
-     Connection myConnection = createConnection();
+    public ResultSet getItemsBidOn(int userId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "SELECT * FROM ITEM WHERE ITEM_ID IN ";
-     queryString += "(SELECT ITEM_ID FROM AUCTIONS WHERE USER_ID = ?";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, userId);
+	    String queryString = "SELECT * FROM ITEM WHERE ITEM_ID IN ";
+	    queryString += "(SELECT ITEM_ID FROM AUCTIONS WHERE USER_ID = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
 
-     return preparedStatement.executeQuery();
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -259,25 +248,23 @@ public class ESaintDaoHelper implements Serializable {
      * @param userId
      * @return A Result Set of the sold items.
      */
-    public ResultSet getItemsSold(int userId) {
- try {
-     Connection myConnection = createConnection();
+    public ResultSet getItemsSold(int userId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "SELECT * FROM ITEM WHERE CREATOR_ID = ? AND STATUS = 'SOLD'";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, userId);
+	    String queryString = "SELECT * FROM ITEM WHERE CREATOR_ID = ? AND STATUS = 'SOLD'";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
 
-     return preparedStatement.executeQuery();
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -288,25 +275,23 @@ public class ESaintDaoHelper implements Serializable {
      * @param userId
      * @return
      */
-    public ResultSet getItemsWon(int userId) {
- try {
-     Connection myConnection = createConnection();
+    public ResultSet getItemsWon(int userId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "SELECT * FROM ITEM WHERE WINNER_ID = ? AND STATUS = 'SOLD'";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, userId);
+	    String queryString = "SELECT * FROM ITEM WHERE WINNER_ID = ? AND STATUS = 'SOLD'";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
 
-     return preparedStatement.executeQuery();
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -314,23 +299,21 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return result set with all the users
      */
-    public ResultSet getAllUsers() {
- try {
-     Connection myConnection = createConnection();
-     Statement statement = myConnection.createStatement();
+    public ResultSet getAllUsers() throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
+	    Statement statement = myConnection.createStatement();
 
-     String queryString = "SELECT USER_ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD FROM USERS";
+	    String queryString = "SELECT USER_ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD FROM USERS";
 
-     return statement.executeQuery(queryString);
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return statement.executeQuery(queryString);
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -350,48 +333,46 @@ public class ESaintDaoHelper implements Serializable {
      * @return true if entered with no errors, otherwise false
      */
     public boolean insertUser(String username, String password, String email, String phoneNum,
-     String firstName, String lastName, String cardNum, String cardType,
-     String cardExpMon, String cardExpYear, int creatorId) {
- try {
-     Connection myConnection = createConnection();
+	    String firstName, String lastName, String cardNum, String cardType,
+	    String cardExpMon, String cardExpYear, int creatorId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "INSERT INTO USERS VALUES(DEFAULT,?,?,?,?,?,?,?,?,?,?,?)";
+	    String queryString = "INSERT INTO USERS VALUES(DEFAULT,?,?,?,?,?,?,?,?,?,?,?)";
 
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setString(1, username);
-     preparedStatement.setString(2, password);
-     preparedStatement.setString(3, email);
-     preparedStatement.setString(4, phoneNum);
-     preparedStatement.setString(5, firstName);
-     preparedStatement.setString(6, lastName);
-     preparedStatement.setString(7, cardNum);
-     preparedStatement.setString(8, cardType);
-     preparedStatement.setString(9, cardExpMon);
-     preparedStatement.setString(10, cardExpYear);
-     preparedStatement.setInt(11, creatorId);
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+	    preparedStatement.setString(2, password);
+	    preparedStatement.setString(3, email);
+	    preparedStatement.setString(4, phoneNum);
+	    preparedStatement.setString(5, firstName);
+	    preparedStatement.setString(6, lastName);
+	    preparedStatement.setString(7, cardNum);
+	    preparedStatement.setString(8, cardType);
+	    preparedStatement.setString(9, cardExpMon);
+	    preparedStatement.setString(10, cardExpYear);
+	    preparedStatement.setInt(11, creatorId);
 
-     int rowsModified = preparedStatement.executeUpdate();
+	    int rowsModified = preparedStatement.executeUpdate();
 
-     if (rowsModified > 0) {
-  preparedStatement.close();
-  myConnection.close();
-  return true;
-     }
-     else {
-  preparedStatement.close();
-  myConnection.close();
-  return false;
-     }
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return false;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return false;
- }
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -412,53 +393,51 @@ public class ESaintDaoHelper implements Serializable {
      * @return true if modified, otherwise false
      */
     public boolean updateUser(int userId, String username, String password, String email,
-     String phoneNum, String firstName, String lastName, String cardNum,
-     String cardType, String cardExpMon, String cardExpYear, int creatorId) {
- try {
-     Connection myConnection = createConnection();
+	    String phoneNum, String firstName, String lastName, String cardNum,
+	    String cardType, String cardExpMon, String cardExpYear, int creatorId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "UPDATE USER SET ";
-     queryString += "USERNAME = ?, PASSWORD = ?, EMAIL = ?, PHONE_NUMBER = ?, ";
-     queryString += "FIRST_NAME = ?, LAST_NAME = ?, CARD_NUMBER = ?, CARD_TYPE = ?, ";
-     queryString += "CARD_EXP_MONTH = ?, CARD_EXP_YEAR = ?, CREATOR_ID = ?";
-     queryString += "WHERE USER_ID = ?";
+	    String queryString = "UPDATE USER SET ";
+	    queryString += "USERNAME = ?, PASSWORD = ?, EMAIL = ?, PHONE_NUMBER = ?, ";
+	    queryString += "FIRST_NAME = ?, LAST_NAME = ?, CARD_NUMBER = ?, CARD_TYPE = ?, ";
+	    queryString += "CARD_EXP_MONTH = ?, CARD_EXP_YEAR = ?, CREATOR_ID = ?";
+	    queryString += "WHERE USER_ID = ?";
 
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setString(1, username);
-     preparedStatement.setString(2, password);
-     preparedStatement.setString(3, email);
-     preparedStatement.setString(4, phoneNum);
-     preparedStatement.setString(5, firstName);
-     preparedStatement.setString(6, lastName);
-     preparedStatement.setString(7, cardNum);
-     preparedStatement.setString(8, cardType);
-     preparedStatement.setString(9, cardExpMon);
-     preparedStatement.setString(10, cardExpYear);
-     preparedStatement.setInt(11, creatorId);
-     preparedStatement.setInt(12, userId);
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+	    preparedStatement.setString(2, password);
+	    preparedStatement.setString(3, email);
+	    preparedStatement.setString(4, phoneNum);
+	    preparedStatement.setString(5, firstName);
+	    preparedStatement.setString(6, lastName);
+	    preparedStatement.setString(7, cardNum);
+	    preparedStatement.setString(8, cardType);
+	    preparedStatement.setString(9, cardExpMon);
+	    preparedStatement.setString(10, cardExpYear);
+	    preparedStatement.setInt(11, creatorId);
+	    preparedStatement.setInt(12, userId);
 
-     int rowsModified = preparedStatement.executeUpdate();
+	    int rowsModified = preparedStatement.executeUpdate();
 
-     if (rowsModified > 0) {
-  preparedStatement.close();
-  myConnection.close();
-  return true;
-     }
-     else {
-  preparedStatement.close();
-  myConnection.close();
-  return false;
-     }
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return false;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return false;
- }
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -466,23 +445,21 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return result set of data in COMMISSION_REPORT
      */
-    public ResultSet getCommissionReport() {
- try {
-     Connection myConnection = createConnection();
-     Statement statement = myConnection.createStatement();
+    public ResultSet getCommissionReport() throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
+	    Statement statement = myConnection.createStatement();
 
-     String queryString = "SELECT * FROM COMMISSION_REPORT";
+	    String queryString = "SELECT * FROM COMMISSION_REPORT";
 
-     return statement.executeQuery(queryString);
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return statement.executeQuery(queryString);
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -490,23 +467,21 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return result set of data in SALES_REPORT
      */
-    public ResultSet getSalesReport() {
- try {
-     Connection myConnection = createConnection();
-     Statement statement = myConnection.createStatement();
+    public ResultSet getSalesReport() throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
+	    Statement statement = myConnection.createStatement();
 
-     String queryString = "SELECT * FROM SALES_REPORT";
+	    String queryString = "SELECT * FROM SALES_REPORT";
 
-     return statement.executeQuery(queryString);
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return statement.executeQuery(queryString);
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -522,44 +497,42 @@ public class ESaintDaoHelper implements Serializable {
      * @return true if entered, otherwise false
      */
     public boolean insertItem(String itemName, String category, Timestamp auctionStart,
-     Timestamp auctionEnd, String description, double startPrice, int creatorId,
-     Blob photo) {
- try {
-     Connection myConnection = createConnection();
+	    Timestamp auctionEnd, String description, double startPrice, int creatorId,
+	    Blob photo) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "INSERT INTO ITEM VALUES(?,?,?,?,?,?,?,?)";
+	    String queryString = "INSERT INTO ITEM VALUES(?,?,?,?,?,?,?,?)";
 
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setString(1, itemName);
-     preparedStatement.setString(2, category);
-     preparedStatement.setTimestamp(3, auctionStart);
-     preparedStatement.setTimestamp(4, auctionEnd);
-     preparedStatement.setString(5, description);
-     preparedStatement.setDouble(6, startPrice);
-     preparedStatement.setInt(7, creatorId);
-     preparedStatement.setBlob(8, photo);
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, itemName);
+	    preparedStatement.setString(2, category);
+	    preparedStatement.setTimestamp(3, auctionStart);
+	    preparedStatement.setTimestamp(4, auctionEnd);
+	    preparedStatement.setString(5, description);
+	    preparedStatement.setDouble(6, startPrice);
+	    preparedStatement.setInt(7, creatorId);
+	    preparedStatement.setBlob(8, photo);
 
-     int rowsModified = preparedStatement.executeUpdate();
-     if (rowsModified > 0) {
-  preparedStatement.close();
-  myConnection.close();
-  return true;
-     }
-     else {
-  preparedStatement.close();
-  myConnection.close();
-  return false;
-     }
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return false;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return false;
- }
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -576,48 +549,46 @@ public class ESaintDaoHelper implements Serializable {
      * @return true if entered, otherwise false
      */
     public boolean updateItem(int itemId, String itemName, String category,
-     Timestamp auctionStart, Timestamp auctionEnd, String description,
-     double startPrice, int creatorId, Blob photo) {
- try {
-     Connection myConnection = createConnection();
+	    Timestamp auctionStart, Timestamp auctionEnd, String description,
+	    double startPrice, int creatorId, Blob photo) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "UPDATE ITEM SET ";
-     queryString += "ITEM_NAME = ?, CATEGORY = ?, AUCTION_START = ?, AUCTION_END = ?, ";
-     queryString += "DESCRIPTION = ?, START_PRICE = ?, CREATOR_ID = ?, PHOTO = ? ";
-     queryString += "WHERE ITEM_ID = ?";
+	    String queryString = "UPDATE ITEM SET ";
+	    queryString += "ITEM_NAME = ?, CATEGORY = ?, AUCTION_START = ?, AUCTION_END = ?, ";
+	    queryString += "DESCRIPTION = ?, START_PRICE = ?, CREATOR_ID = ?, PHOTO = ? ";
+	    queryString += "WHERE ITEM_ID = ?";
 
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setString(1, itemName);
-     preparedStatement.setString(2, category);
-     preparedStatement.setTimestamp(3, auctionStart);
-     preparedStatement.setTimestamp(4, auctionEnd);
-     preparedStatement.setString(5, description);
-     preparedStatement.setDouble(6, startPrice);
-     preparedStatement.setInt(7, creatorId);
-     preparedStatement.setInt(8, itemId);
-     preparedStatement.setBlob(9, photo);
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, itemName);
+	    preparedStatement.setString(2, category);
+	    preparedStatement.setTimestamp(3, auctionStart);
+	    preparedStatement.setTimestamp(4, auctionEnd);
+	    preparedStatement.setString(5, description);
+	    preparedStatement.setDouble(6, startPrice);
+	    preparedStatement.setInt(7, creatorId);
+	    preparedStatement.setInt(8, itemId);
+	    preparedStatement.setBlob(9, photo);
 
-     int rowsModified = preparedStatement.executeUpdate();
-     if (rowsModified > 0) {
-  preparedStatement.close();
-  myConnection.close();
-  return true;
-     }
-     else {
-  preparedStatement.close();
-  myConnection.close();
-  return false;
-     }
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return false;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return false;
- }
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -631,29 +602,27 @@ public class ESaintDaoHelper implements Serializable {
      *         current bid, -2 if the auction is not currently open, or -3 if another error
      *         occured
      */
-    public int insertAuctionBid(int itemId, int userId, double maximumBid) {
- try {
-     Connection myConnection = createConnection();
+    public int insertAuctionBid(int itemId, int userId, double maximumBid) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     CallableStatement callableStatement = myConnection
-      .prepareCall("{? = call insertAuctionBid(?, ?, ?)}");
-     callableStatement.registerOutParameter(1, Types.INTEGER);
-     callableStatement.setInt(2, itemId);
-     callableStatement.setInt(3, userId);
-     callableStatement.setDouble(4, maximumBid);
+	    CallableStatement callableStatement = myConnection
+		    .prepareCall("{? = call insertAuctionBid(?, ?, ?)}");
+	    callableStatement.registerOutParameter(1, Types.INTEGER);
+	    callableStatement.setInt(2, itemId);
+	    callableStatement.setInt(3, userId);
+	    callableStatement.setDouble(4, maximumBid);
 
-     callableStatement.execute();
+	    callableStatement.execute();
 
-     return callableStatement.getInt(1);
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return -3;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return -3;
- }
+	    return callableStatement.getInt(1);
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -666,38 +635,36 @@ public class ESaintDaoHelper implements Serializable {
      * @return true if entered, otherwise false
      */
     public boolean insertBuyerFeedback(int itemId, int satisfaction, int paymentPromptness,
-     String comments) {
- try {
-     Connection myConnection = createConnection();
+	    String comments) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "INSERT INTO BUYER_FEEDBACK VALUES(?, ?, ?, ?)";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, itemId);
-     preparedStatement.setInt(2, satisfaction);
-     preparedStatement.setInt(3, paymentPromptness);
-     preparedStatement.setString(4, comments);
+	    String queryString = "INSERT INTO BUYER_FEEDBACK VALUES(?, ?, ?, ?)";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
+	    preparedStatement.setInt(2, satisfaction);
+	    preparedStatement.setInt(3, paymentPromptness);
+	    preparedStatement.setString(4, comments);
 
-     int rowsModified = preparedStatement.executeUpdate();
-     if (rowsModified > 0) {
-  preparedStatement.close();
-  myConnection.close();
-  return true;
-     }
-     else {
-  preparedStatement.close();
-  myConnection.close();
-  return false;
-     }
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return false;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return false;
- }
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -711,39 +678,37 @@ public class ESaintDaoHelper implements Serializable {
      * @return true if entered, false if otherwise
      */
     public boolean insertSellerFeedback(int itemId, int satisfaction, int itemDelivery,
-     int itemQuality, String comments) {
- try {
-     Connection myConnection = createConnection();
+	    int itemQuality, String comments) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "INSERT INTO SELLER_FEEDBACK VALUES(?, ?, ?, ?, ?)";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, itemId);
-     preparedStatement.setInt(2, satisfaction);
-     preparedStatement.setInt(3, itemDelivery);
-     preparedStatement.setInt(4, itemQuality);
-     preparedStatement.setString(5, comments);
+	    String queryString = "INSERT INTO SELLER_FEEDBACK VALUES(?, ?, ?, ?, ?)";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
+	    preparedStatement.setInt(2, satisfaction);
+	    preparedStatement.setInt(3, itemDelivery);
+	    preparedStatement.setInt(4, itemQuality);
+	    preparedStatement.setString(5, comments);
 
-     int rowsModified = preparedStatement.executeUpdate();
-     if (rowsModified > 0) {
-  preparedStatement.close();
-  myConnection.close();
-  return true;
-     }
-     else {
-  preparedStatement.close();
-  myConnection.close();
-  return false;
-     }
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return false;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return false;
- }
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -752,26 +717,24 @@ public class ESaintDaoHelper implements Serializable {
      * @param userId
      * @return Result Set of buyer feedback
      */
-    public ResultSet getBuyerFeedback(int userId) {
- try {
-     Connection myConnection = createConnection();
+    public ResultSet getBuyerFeedback(int userId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "SELECT * FROM BUYER_FEEDBACK WHERE ITEM_ID IN ";
-     queryString += "(SELECT ITEM_ID FROM ITEM WHERE WINNER_ID = ?)";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, userId);
+	    String queryString = "SELECT * FROM BUYER_FEEDBACK WHERE ITEM_ID IN ";
+	    queryString += "(SELECT ITEM_ID FROM ITEM WHERE WINNER_ID = ?)";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
 
-     return preparedStatement.executeQuery();
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     /**
@@ -779,32 +742,31 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @param userId
      * @return Result Set of seller feedback
+     * @throws ClassNotFoundException 
      */
-    public ResultSet getSellerFeedback(int userId) {
- try {
-     Connection myConnection = createConnection();
+    public ResultSet getSellerFeedback(int userId) throws ClassNotFoundException, SQLException {
+	try {
+	    Connection myConnection = createConnection();
 
-     String queryString = "SELECT * FROM SELLER_FEEDBACK WHERE ITEM_ID IN ";
-     queryString += "(SELECT ITEM_ID FROM ITEM WEHRE CREATOR_ID = ?)";
-     PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
-     preparedStatement.clearParameters();
-     preparedStatement.setInt(1, userId);
+	    String queryString = "SELECT * FROM SELLER_FEEDBACK WHERE ITEM_ID IN ";
+	    queryString += "(SELECT ITEM_ID FROM ITEM WEHRE CREATOR_ID = ?)";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
 
-     return preparedStatement.executeQuery();
- }
- catch (ClassNotFoundException ce) {
-     ce.printStackTrace();
-     return null;
- }
- catch (SQLException se) {
-     se.printStackTrace();
-     return null;
- }
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
     }
 
     private Connection createConnection() throws ClassNotFoundException, SQLException {
- Class.forName("com.mysql.jdbc.Driver");
- return (DriverManager.getConnection(databaseUrl, username, password));
+	Class.forName("com.mysql.jdbc.Driver");
+	return (DriverManager.getConnection(databaseUrl, username, password));
     }
 
 }
