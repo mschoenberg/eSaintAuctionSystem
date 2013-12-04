@@ -304,7 +304,7 @@ public class ESaintDaoHelper implements Serializable {
 	    Connection myConnection = createConnection();
 	    Statement statement = myConnection.createStatement();
 
-	    String queryString = "SELECT USER_ID, USERNAME, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD FROM USERS";
+	    String queryString = "SELECT * FROM USERS";
 
 	    return statement.executeQuery(queryString);
 	}
@@ -398,10 +398,10 @@ public class ESaintDaoHelper implements Serializable {
 	try {
 	    Connection myConnection = createConnection();
 
-	    String queryString = "UPDATE USER SET ";
+	    String queryString = "UPDATE USERS SET ";
 	    queryString += "USERNAME = ?, PASSWORD = ?, EMAIL = ?, PHONE_NUMBER = ?, ";
 	    queryString += "FIRST_NAME = ?, LAST_NAME = ?, CARD_NUMBER = ?, CARD_TYPE = ?, ";
-	    queryString += "CARD_EXP_MONTH = ?, CARD_EXP_YEAR = ?, CREATOR_ID = ?";
+	    queryString += "CARD_EXP_MON = ?, CARD_EXP_YR = ?, CREATOR_ID = ? ";
 	    queryString += "WHERE USER_ID = ?";
 
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
@@ -418,6 +418,44 @@ public class ESaintDaoHelper implements Serializable {
 	    preparedStatement.setString(10, cardExpYear);
 	    preparedStatement.setInt(11, creatorId);
 	    preparedStatement.setInt(12, userId);
+
+	    int rowsModified = preparedStatement.executeUpdate();
+
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
+    }
+    
+    /**
+     * Removes a user with userId from USERS
+     * @param userId
+     * @return
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public boolean removeUser(int userId) throws ClassNotFoundException, SQLException{
+	try {
+	    Connection myConnection = createConnection();
+
+	    String queryString = "DELETE FROM USERS WHERE USER_ID = ?";
+
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, userId);
 
 	    int rowsModified = preparedStatement.executeUpdate();
 
@@ -502,7 +540,10 @@ public class ESaintDaoHelper implements Serializable {
 	try {
 	    Connection myConnection = createConnection();
 
-	    String queryString = "INSERT INTO ITEM VALUES(?,?,?,?,?,?,?,?)";
+	    String queryString = "INSERT INTO ITEM ";
+	    queryString +=	 "(ITEM_NAME, CATEGORY, AUCTION_START, AUCTION_END, ";
+	    queryString +=	 "DESCRIPTION, START_PRICE, CREATOR_ID, PHOTO) ";
+	    queryString +=	 "VALUES(?,?,?,?,?,?,?,?)";
 
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
 	    preparedStatement.clearParameters();
@@ -514,6 +555,36 @@ public class ESaintDaoHelper implements Serializable {
 	    preparedStatement.setDouble(6, startPrice);
 	    preparedStatement.setInt(7, creatorId);
 	    preparedStatement.setBlob(8, photo);
+
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
+    }
+    
+    public boolean removeItem(int itemId) throws ClassNotFoundException, SQLException{
+	try {
+	    Connection myConnection = createConnection();
+
+	    String queryString = "DELETE FROM ITEM WHERE ITEM_ID = ?";
+
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
 
 	    int rowsModified = preparedStatement.executeUpdate();
 	    if (rowsModified > 0) {
@@ -568,8 +639,8 @@ public class ESaintDaoHelper implements Serializable {
 	    preparedStatement.setString(5, description);
 	    preparedStatement.setDouble(6, startPrice);
 	    preparedStatement.setInt(7, creatorId);
-	    preparedStatement.setInt(8, itemId);
-	    preparedStatement.setBlob(9, photo);
+	    preparedStatement.setBlob(8, photo);
+	    preparedStatement.setInt(9, itemId);
 
 	    int rowsModified = preparedStatement.executeUpdate();
 	    if (rowsModified > 0) {
@@ -600,7 +671,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param maximumBid
      * @return will return 0 if bid entered successfully, -1 if maxiumumBid is less than the
      *         current bid, -2 if the auction is not currently open, or -3 if another error
-     *         occured
+     *         occurred
      */
     public int insertAuctionBid(int itemId, int userId, double maximumBid) throws ClassNotFoundException, SQLException {
 	try {
@@ -609,9 +680,9 @@ public class ESaintDaoHelper implements Serializable {
 	    CallableStatement callableStatement = myConnection
 		    .prepareCall("{? = call insertAuctionBid(?, ?, ?)}");
 	    callableStatement.registerOutParameter(1, Types.INTEGER);
-	    callableStatement.setInt(2, itemId);
-	    callableStatement.setInt(3, userId);
-	    callableStatement.setDouble(4, maximumBid);
+	    callableStatement.setInt(1, itemId);
+	    callableStatement.setInt(2, userId);
+	    callableStatement.setDouble(3, maximumBid);
 
 	    callableStatement.execute();
 
@@ -749,7 +820,7 @@ public class ESaintDaoHelper implements Serializable {
 	    Connection myConnection = createConnection();
 
 	    String queryString = "SELECT * FROM SELLER_FEEDBACK WHERE ITEM_ID IN ";
-	    queryString += "(SELECT ITEM_ID FROM ITEM WEHRE CREATOR_ID = ?)";
+	    queryString += "(SELECT ITEM_ID FROM ITEM WHERE CREATOR_ID = ?)";
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
 	    preparedStatement.clearParameters();
 	    preparedStatement.setInt(1, userId);
