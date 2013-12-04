@@ -1,10 +1,14 @@
+package awzurn.eSaint;
+
+import java.io.*;
+
 /**
  * @author Andrew Zurn
  * @version 0.1
  * 
- * This class will be used as the bean class for a User in the eSaintAuctionSystem.
+ *          This class will be used as the bean class for a User in the eSaintAuctionSystem.
  */
-public class User {
+public class User implements Serializable {
 
     /* user bean form fields */
     private int userId;
@@ -26,27 +30,27 @@ public class User {
     public User() {
 
     }
-    
-    public boolean login(){
+
+    public boolean login() {
 	ESaintDaoHelper dao = new ESaintDaoHelper();
-	
-	if( dao.loginUser(username, password) ){  //login is good, login
+
+	if (dao.loginUser(username, password)) { // login is good, login
 	    this.isLoggedIn = true;
 	    return true;
 	}
-	else{  //return false
+	else { // return false
 	    return false;
 	}
     }
-	
-	public void logout(){
-	  if( isLoggedIn == false ){
+
+    public void logout() {
+	if (isLoggedIn == false) {
 	    throw new IllegalStateException("The user is not logged in!");
-	  }
-	  else{
-	    isLoggedIn = false;
-	  }
 	}
+	else {
+	    isLoggedIn = false;
+	}
+    }
 
     public int getUserId() {
 	return userId;

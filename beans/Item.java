@@ -1,9 +1,11 @@
+package awzurn.eSaint;
+
+import java.io.*;
 import java.sql.Blob;
 import java.sql.Timestamp;
 
+public class Item implements Serializable {
 
-public class Item {
-    
     /* item bean form fields */
     private int itemId;
     private String itemName;
@@ -17,11 +19,11 @@ public class Item {
     private int winnerId;
     private int creatorId;
     private Blob photo;
-    
+
     /* other item related fields */
-    
-    public Item(){
-	
+
+    public Item() {
+
     }
 
     public int getItemId() {
