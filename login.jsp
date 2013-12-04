@@ -10,7 +10,7 @@ http-equiv="content-type">
 </head>
 
 <body>
-
+Hello
 <center>
 
 <font size="14" color="red">ESAINT AUCTION SYSTEM</font>
