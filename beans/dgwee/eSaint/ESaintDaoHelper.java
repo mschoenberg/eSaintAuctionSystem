@@ -273,7 +273,7 @@ public class ESaintDaoHelper implements Serializable {
      * user has won in the auction system.
      * 
      * @param userId
-     * @return
+     * @return Will return a Result Set containing all the items a user has won.
      */
     public ResultSet getItemsWon(int userId) throws ClassNotFoundException, SQLException {
 	try {
@@ -441,9 +441,9 @@ public class ESaintDaoHelper implements Serializable {
     }
     
     /**
-     * Removes a user with userId from USERS
+     * Removes a USERS tuple where the USER_ID matches the given userId
      * @param userId
-     * @return
+     * @return true if removed, false otherwise
      * @throws ClassNotFoundException
      * @throws SQLException
      */
@@ -576,6 +576,13 @@ public class ESaintDaoHelper implements Serializable {
 	}
     }
     
+    /**
+     * Will remove an ITEM tuple where the ITEM_ID matches the given itemId.
+     * @param itemId
+     * @return true if removed, false otherwise
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
     public boolean removeItem(int itemId) throws ClassNotFoundException, SQLException{
 	try {
 	    Connection myConnection = createConnection();
@@ -737,6 +744,43 @@ public class ESaintDaoHelper implements Serializable {
 	    throw se;
 	}
     }
+    
+    /**
+     * Will remove a buyer feedback tuple where it matches the given itemId.
+     * @param itemId
+     * @return true if removed, false otherwise
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public boolean removeBuyerFeedback(int itemId) throws ClassNotFoundException, SQLException{
+	try {
+	    Connection myConnection = createConnection();
+
+	    String queryString = "DELETE FROM BUYER_FEEDBACK WHERE ITEM_ID = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
+
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
+    }
+    
 
     /**
      * Will insert a feedback tuple into the SELLER_FEEDBACK table for the given itemId.
@@ -761,6 +805,42 @@ public class ESaintDaoHelper implements Serializable {
 	    preparedStatement.setInt(3, itemDelivery);
 	    preparedStatement.setInt(4, itemQuality);
 	    preparedStatement.setString(5, comments);
+
+	    int rowsModified = preparedStatement.executeUpdate();
+	    if (rowsModified > 0) {
+		preparedStatement.close();
+		myConnection.close();
+		return true;
+	    }
+	    else {
+		preparedStatement.close();
+		myConnection.close();
+		return false;
+	    }
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
+    }
+    
+    /**
+     * Will remove a feedback tuple that matches the given itemId.
+     * @param itemId
+     * @return true if removed, false otherwise
+     * @throws ClassNotFoundException
+     * @throws SQLException
+     */
+    public boolean removeSellerFeedback(int itemId) throws ClassNotFoundException, SQLException{
+	try {
+	    Connection myConnection = createConnection();
+
+	    String queryString = "DELETE FROM SELLER_FEEDBACK WHERE ITEM_ID = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setInt(1, itemId);
 
 	    int rowsModified = preparedStatement.executeUpdate();
 	    if (rowsModified > 0) {

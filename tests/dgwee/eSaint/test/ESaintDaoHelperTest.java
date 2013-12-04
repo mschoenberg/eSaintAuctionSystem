@@ -255,13 +255,35 @@ public class ESaintDaoHelperTest {
     }
     
     @Test
-    public void testInsertBuyerFeedback(){
-	//TODO
+    public void testInsertBuyerFeedback() throws ClassNotFoundException, SQLException{
+	boolean wasEntered = dao.insertBuyerFeedback(4, 10, 10, "Great Buy");
+	
+	if( !wasEntered ){
+	    fail("The feedback was not entered!");
+	}
+	
+	boolean wasRemoved = dao.removeBuyerFeedback(4);
+	
+	if( !wasRemoved ){
+	    fail("The feedback was not removed!");
+	}
     }
     
     @Test
-    public void testInsertSellerFeedback(){
-	//TODO
+    public void testInsertSellerFeedback() throws ClassNotFoundException, SQLException{
+	boolean wasEntered = dao.insertSellerFeedback(4, 10, 10, 10, "Great Buy");
+	
+	if( !wasEntered ){
+	    fail("The feedback was not entered!");
+	}
+	
+	boolean wasRemoved = dao.removeSellerFeedback(4);
+	
+	if( !wasRemoved ){
+	    fail("The feedback was not removed!");
+	}
+	
+	
     }
     
     @Test
