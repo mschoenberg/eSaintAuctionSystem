@@ -1,4 +1,4 @@
-package awzurn.eSaint;
+package dgwee.eSaint;
 
 import java.io.*;
 
@@ -24,56 +24,56 @@ public class Administrator implements Serializable {
     }
 
     public boolean login() {
-	ESaintDaoHelper dao = new ESaintDaoHelper();
+ ESaintDaoHelper dao = new ESaintDaoHelper();
 
-	if (dao.loginAdmin(username, password)) { // login is good, login
-	    this.isLoggedIn = true;
-	    return true;
-	}
-	else { // return false
-	    return false;
-	}
+ if (dao.loginAdmin(username, password)) { // login is good, login
+     this.isLoggedIn = true;
+     return true;
+ }
+ else { // return false
+     return false;
+ }
     }
 
     public void logout() {
-	if (isLoggedIn == false) {
-	    throw new IllegalStateException("The user is not logged in!");
-	}
-	else {
-	    isLoggedIn = false;
-	}
+ if (isLoggedIn == false) {
+     throw new IllegalStateException("The user is not logged in!");
+ }
+ else {
+     isLoggedIn = false;
+ }
     }
 
     public int getUserId() {
-	return userId;
+ return userId;
     }
 
     public void setUserId(int userId) {
-	this.userId = userId;
+ this.userId = userId;
     }
 
     public String getUsername() {
-	return username;
+ return username;
     }
 
     public void setUsername(String username) {
-	this.username = username;
+ this.username = username;
     }
 
     public String getPassword() {
-	return password;
+ return password;
     }
 
     public void setPassword(String password) {
-	this.password = password;
+ this.password = password;
     }
 
     public boolean isLoggedIn() {
-	return isLoggedIn;
+ return isLoggedIn;
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
-	this.isLoggedIn = isLoggedIn;
+ this.isLoggedIn = isLoggedIn;
     }
 
 }

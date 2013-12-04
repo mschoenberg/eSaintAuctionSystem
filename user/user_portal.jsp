@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.sql.*"%>
-<jsp:useBean id="user" class="awzurn.User" scope="session"/>
+<jsp:useBean id="user" class="dgwee.eSaint.User" scope="session"/>
 <html>
 
 <head>
@@ -14,7 +14,7 @@
 <br/>
 <br/>
 
-<font size="12">Welcome <%= user.getFirstName() %>!</font>
+<font size="12">Welcome <%= user.getUsername() %>!</font>
 
 <form method="link" action="update_profile.jsp">
 	<input type="submit" value="Update Profile">

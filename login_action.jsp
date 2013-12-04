@@ -6,7 +6,7 @@
 	
 	if( userType.equals("admin") ){
 %>
-	<jsp:useBean id="admin" class="awzurn.eSaint.Administrator" scope="session"/> 
+	<jsp:useBean id="admin" class="dgwee.eSaint.Administrator" scope="session"/> 
 	<jsp:setProperty name="admin" property="*"/> 
 <% 
 	  if ( admin.login() ){
@@ -18,7 +18,7 @@
 	}
 	else{
 %>
-	<jsp:useBean id="user" class="awzurn.eSaint.User" scope="session"/> 
+	<jsp:useBean id="user" class="dgwee.eSaint.User" scope="session"/> 
 	<jsp:setProperty name="user" property="*"/> 
 <%	
 	  if ( user.login() ){

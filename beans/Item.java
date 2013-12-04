@@ -1,4 +1,4 @@
-package awzurn.eSaint;
+package dgwee.eSaint;
 
 import java.io.*;
 import java.sql.Blob;
@@ -27,98 +27,98 @@ public class Item implements Serializable {
     }
 
     public int getItemId() {
-	return itemId;
+ return itemId;
     }
 
     public void setItemId(int itemId) {
-	this.itemId = itemId;
+ this.itemId = itemId;
     }
 
     public String getItemName() {
-	return itemName;
+ return itemName;
     }
 
     public void setItemName(String itemName) {
-	this.itemName = itemName;
+ this.itemName = itemName;
     }
 
     public String getCategory() {
-	return category;
+ return category;
     }
 
     public void setCategory(String category) {
-	this.category = category;
+ this.category = category;
     }
 
     public Timestamp getAuctionStart() {
-	return auctionStart;
+ return auctionStart;
     }
 
     public void setAuctionStart(Timestamp auctionStart) {
-	this.auctionStart = auctionStart;
+ this.auctionStart = auctionStart;
     }
 
     public Timestamp getAuctionEnd() {
-	return auctionEnd;
+ return auctionEnd;
     }
 
     public void setAuctionEnd(Timestamp auctionEnd) {
-	this.auctionEnd = auctionEnd;
+ this.auctionEnd = auctionEnd;
     }
 
     public String getDescription() {
-	return description;
+ return description;
     }
 
     public void setDescription(String description) {
-	this.description = description;
+ this.description = description;
     }
 
     public String getStatus() {
-	return status;
+ return status;
     }
 
     public void setStatus(String status) {
-	this.status = status;
+ this.status = status;
     }
 
     public double getStartPrice() {
-	return startPrice;
+ return startPrice;
     }
 
     public void setStartPrice(double startPrice) {
-	this.startPrice = startPrice;
+ this.startPrice = startPrice;
     }
 
     public double getCurrentBid() {
-	return currentBid;
+ return currentBid;
     }
 
     public void setCurrentBid(double currentBid) {
-	this.currentBid = currentBid;
+ this.currentBid = currentBid;
     }
 
     public int getWinnerId() {
-	return winnerId;
+ return winnerId;
     }
 
     public void setWinnerId(int winnerId) {
-	this.winnerId = winnerId;
+ this.winnerId = winnerId;
     }
 
     public int getCreatorId() {
-	return creatorId;
+ return creatorId;
     }
 
     public void setCreatorId(int creatorId) {
-	this.creatorId = creatorId;
+ this.creatorId = creatorId;
     }
 
     public Blob getPhoto() {
-	return photo;
+ return photo;
     }
 
     public void setPhoto(Blob photo) {
-	this.photo = photo;
+ this.photo = photo;
     }
 }
