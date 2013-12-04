@@ -194,15 +194,28 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return A Result Set of matched tuples in ITEM
      */
-    public ResultSet searchItems() throws ClassNotFoundException, SQLException {
+    public ResultSet searchItems(int itemId, String keyword, String category,
+	    double bidFloor, double bidCeiling, Timestamp auctionStart,
+	    Timestamp auctionEnd) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
-	    // TODO: FIGURE OUT THE PARAMETERS AND QUERY FOR THIS
-	    String queryString = "";
+	    String queryString = "SELECT *";
+	    queryString += 	 "FROM ITEM";
+	    queryString +=	 "WHERE ITEM_ID = ? OR (ITEM_NAME LIKE '%?%' ";
+	    queryString +=	 "OR CATEGORY = ? OR (CURRENT_BID BETWEEN ? AND ?) OR ";
+	    queryString +=	 "(AUCTION_START <= ? AND AUCTION_END >= ?))";
+	    
 	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
 	    preparedStatement.clearParameters();
-
+	    preparedStatement.setInt(1, itemId);
+	    preparedStatement.setString(2, keyword);
+	    preparedStatement.setString(3, category);
+	    preparedStatement.setDouble(4, bidFloor);
+	    preparedStatement.setDouble(5, bidCeiling);
+	    preparedStatement.setTimestamp(6, auctionStart);
+	    preparedStatement.setTimestamp(7, auctionEnd);
+	    
 	    return preparedStatement.executeQuery();
 	}
 	catch (ClassNotFoundException ce) {
