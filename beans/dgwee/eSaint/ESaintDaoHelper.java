@@ -21,11 +21,7 @@ import java.sql.Types;
  * @version 0.1
  * 
  */
-public class ESaintDaoHelper implements Serializable {
-
-    private static final String databaseUrl = "jdbc:mysql://devsrv.cs.csbsju.edu:3306/OneHitWonders";
-    private static final String username = "AZurn";
-    private static final String password = "AZurn";
+public class ESaintDaoHelper {
 
     /**
      * Query the ADMINISTRATOR table for the passed username and password
@@ -36,7 +32,7 @@ public class ESaintDaoHelper implements Serializable {
      * @throws ClassNotFoundException 
      * @throws SQLException 
      */
-    public boolean loginAdmin(String username, String password) throws ClassNotFoundException, SQLException {
+    public static boolean loginAdmin(String username, String password) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -79,7 +75,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param password
      * @return true if found, false otherwise.
      */
-    public boolean loginUser(String username, String password) throws ClassNotFoundException, SQLException {
+    public static boolean loginUser(String username, String password) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -115,7 +111,7 @@ public class ESaintDaoHelper implements Serializable {
 	}
     }
     
-    public ResultSet getUser(String username) throws ClassNotFoundException, SQLException{
+    public static ResultSet getUser(String username) throws ClassNotFoundException, SQLException{
 	try {
 	    Connection myConnection = createConnection();
 
@@ -139,7 +135,7 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return A Result Set of all items.
      */
-    public ResultSet getAllItems() throws ClassNotFoundException, SQLException {
+    public static ResultSet getAllItems() throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 	    Statement statement = myConnection.createStatement();
@@ -162,7 +158,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param itemId
      * @return A Result Set containing a single item tuple
      */
-    public ResultSet getItem(int itemId) throws ClassNotFoundException, SQLException {
+    public static ResultSet getItem(int itemId) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -187,7 +183,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param itemId
      * @return A Result Set of the bidders in AUCTIONS for a given itemId
      */
-    public ResultSet getItemBidders(int itemId) throws ClassNotFoundException, SQLException {
+    public static ResultSet getItemBidders(int itemId) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -213,7 +209,7 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return A Result Set of matched tuples in ITEM
      */
-    public ResultSet searchItems(int itemId, String keyword, String category,
+    public static ResultSet searchItems(int itemId, String keyword, String category,
 	    double bidFloor, double bidCeiling, Timestamp auctionStart,
 	    Timestamp auctionEnd) throws ClassNotFoundException, SQLException {
 	try {
@@ -252,7 +248,7 @@ public class ESaintDaoHelper implements Serializable {
      *            that is looking for the items bid on
      * @return A Result Set of items the userId has bid on
      */
-    public ResultSet getItemsBidOn(int userId) throws ClassNotFoundException, SQLException {
+    public static ResultSet getItemsBidOn(int userId) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -280,7 +276,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param userId
      * @return A Result Set of the sold items.
      */
-    public ResultSet getItemsSold(int userId) throws ClassNotFoundException, SQLException {
+    public static ResultSet getItemsSold(int userId) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -307,7 +303,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param userId
      * @return Will return a Result Set containing all the items a user has won.
      */
-    public ResultSet getItemsWon(int userId) throws ClassNotFoundException, SQLException {
+    public static ResultSet getItemsWon(int userId) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -331,7 +327,7 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return result set with all the users
      */
-    public ResultSet getAllUsers() throws ClassNotFoundException, SQLException {
+    public static ResultSet getAllUsers() throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 	    Statement statement = myConnection.createStatement();
@@ -364,7 +360,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param creatorId
      * @return true if entered with no errors, otherwise false
      */
-    public boolean insertUser(String username, String password, String email, String phoneNum,
+    public static boolean insertUser(String username, String password, String email, String phoneNum,
 	    String firstName, String lastName, String cardNum, String cardType,
 	    String cardExpMon, String cardExpYear, int creatorId) throws ClassNotFoundException, SQLException {
 	try {
@@ -424,7 +420,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param creatorId
      * @return true if modified, otherwise false
      */
-    public boolean updateUser(int userId, String username, String password, String email,
+    public static boolean updateUser(int userId, String username, String password, String email,
 	    String phoneNum, String firstName, String lastName, String cardNum,
 	    String cardType, String cardExpMon, String cardExpYear, int creatorId) throws ClassNotFoundException, SQLException {
 	try {
@@ -479,7 +475,7 @@ public class ESaintDaoHelper implements Serializable {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public boolean removeUser(int userId) throws ClassNotFoundException, SQLException{
+    public static boolean removeUser(int userId) throws ClassNotFoundException, SQLException{
 	try {
 	    Connection myConnection = createConnection();
 
@@ -515,7 +511,7 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return result set of data in COMMISSION_REPORT
      */
-    public ResultSet getCommissionReport() throws ClassNotFoundException, SQLException {
+    public static ResultSet getCommissionReport() throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 	    Statement statement = myConnection.createStatement();
@@ -537,7 +533,7 @@ public class ESaintDaoHelper implements Serializable {
      * 
      * @return result set of data in SALES_REPORT
      */
-    public ResultSet getSalesReport() throws ClassNotFoundException, SQLException {
+    public static ResultSet getSalesReport() throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 	    Statement statement = myConnection.createStatement();
@@ -566,7 +562,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param creatorId
      * @return true if entered, otherwise false
      */
-    public boolean insertItem(String itemName, String category, Timestamp auctionStart,
+    public static boolean insertItem(String itemName, String category, Timestamp auctionStart,
 	    Timestamp auctionEnd, String description, double startPrice, int creatorId,
 	    Blob photo) throws ClassNotFoundException, SQLException {
 	try {
@@ -615,7 +611,7 @@ public class ESaintDaoHelper implements Serializable {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public boolean removeItem(int itemId) throws ClassNotFoundException, SQLException{
+    public static boolean removeItem(int itemId) throws ClassNotFoundException, SQLException{
 	try {
 	    Connection myConnection = createConnection();
 
@@ -658,7 +654,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param creatorId
      * @return true if entered, otherwise false
      */
-    public boolean updateItem(int itemId, String itemName, String category,
+    public static boolean updateItem(int itemId, String itemName, String category,
 	    Timestamp auctionStart, Timestamp auctionEnd, String description,
 	    double startPrice, int creatorId, Blob photo) throws ClassNotFoundException, SQLException {
 	try {
@@ -712,7 +708,7 @@ public class ESaintDaoHelper implements Serializable {
      *         current bid, -2 if the auction is not currently open, or -3 if another error
      *         occurred
      */
-    public int insertAuctionBid(int itemId, int userId, double maximumBid) throws ClassNotFoundException, SQLException {
+    public static int insertAuctionBid(int itemId, int userId, double maximumBid) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -744,7 +740,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param comments
      * @return true if entered, otherwise false
      */
-    public boolean insertBuyerFeedback(int itemId, int satisfaction, int paymentPromptness,
+    public static boolean insertBuyerFeedback(int itemId, int satisfaction, int paymentPromptness,
 	    String comments) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
@@ -784,7 +780,7 @@ public class ESaintDaoHelper implements Serializable {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public boolean removeBuyerFeedback(int itemId) throws ClassNotFoundException, SQLException{
+    public static boolean removeBuyerFeedback(int itemId) throws ClassNotFoundException, SQLException{
 	try {
 	    Connection myConnection = createConnection();
 
@@ -824,7 +820,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param comments
      * @return true if entered, false if otherwise
      */
-    public boolean insertSellerFeedback(int itemId, int satisfaction, int itemDelivery,
+    public static boolean insertSellerFeedback(int itemId, int satisfaction, int itemDelivery,
 	    int itemQuality, String comments) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
@@ -865,7 +861,7 @@ public class ESaintDaoHelper implements Serializable {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    public boolean removeSellerFeedback(int itemId) throws ClassNotFoundException, SQLException{
+    public static boolean removeSellerFeedback(int itemId) throws ClassNotFoundException, SQLException{
 	try {
 	    Connection myConnection = createConnection();
 
@@ -900,7 +896,7 @@ public class ESaintDaoHelper implements Serializable {
      * @param userId
      * @return Result Set of buyer feedback
      */
-    public ResultSet getBuyerFeedback(int userId) throws ClassNotFoundException, SQLException {
+    public static ResultSet getBuyerFeedback(int userId) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -927,7 +923,7 @@ public class ESaintDaoHelper implements Serializable {
      * @return Result Set of seller feedback
      * @throws ClassNotFoundException 
      */
-    public ResultSet getSellerFeedback(int userId) throws ClassNotFoundException, SQLException {
+    public static ResultSet getSellerFeedback(int userId) throws ClassNotFoundException, SQLException {
 	try {
 	    Connection myConnection = createConnection();
 
@@ -947,9 +943,9 @@ public class ESaintDaoHelper implements Serializable {
 	}
     }
 
-    private Connection createConnection() throws ClassNotFoundException, SQLException {
+    private static Connection createConnection() throws ClassNotFoundException, SQLException {
 	Class.forName("com.mysql.jdbc.Driver");
-	return (DriverManager.getConnection(databaseUrl, username, password));
+	return (DriverManager.getConnection("jdbc:mysql://devsrv.cs.csbsju.edu:3306/OneHitWonders", "AZurn", "AZurn"));
     }
 
 }

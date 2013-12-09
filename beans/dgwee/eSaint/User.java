@@ -12,6 +12,7 @@ import java.sql.SQLException;
  */
 public class User implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     /* user bean form fields */
     private int userId;
     private String username;
@@ -34,11 +35,10 @@ public class User implements Serializable {
     }
 
     public boolean login() {
-	ESaintDaoHelper dao = new ESaintDaoHelper();
 	boolean isUser = false;
 	
 	try {
-	    isUser = dao.loginUser(username, password);
+	    isUser = ESaintDaoHelper.loginUser(username, password);
 	}
 	catch (ClassNotFoundException e) {
 	    e.printStackTrace();

@@ -12,6 +12,7 @@ import java.sql.SQLException;
  */
 public class Administrator implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     /* administrator bean form fields */
     private int userId;
     private String username;
@@ -25,11 +26,10 @@ public class Administrator implements Serializable {
     }
 
     public boolean login() {
-	ESaintDaoHelper dao = new ESaintDaoHelper();
 	boolean isAdmin = false;
 	
 	try {
-	    isAdmin = dao.loginAdmin(username, password);
+	    isAdmin = ESaintDaoHelper.loginAdmin(username, password);
 	}
 	catch (ClassNotFoundException e) {
 	    e.printStackTrace();
