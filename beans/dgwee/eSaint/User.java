@@ -1,6 +1,7 @@
 package dgwee.eSaint;
 
-import java.io.*;
+import java.io.Serializable;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -48,6 +49,7 @@ public class User implements Serializable {
 
 	if ( isUser ) { // login is good, login
 	    this.isLoggedIn = true;
+	    setFields(dao);
 	    return true;
 	}
 	else { // return false
@@ -61,6 +63,28 @@ public class User implements Serializable {
 	}
 	else {
 	    isLoggedIn = false;
+	}
+    }
+    
+    public void setFields(ESaintDaoHelper dao){
+	try {
+	    ResultSet rs = dao.getUser(username);
+	    userId = rs.getInt("USER_ID");
+	    email = rs.getString("EMAIL");
+	    phoneNum = rs.getString("PHONE_NUMBER");
+	    firstName = rs.getString("FIRST_NAME");
+	    lastName = rs.getString("LAST_NAME");
+	    cardNum = new Integer(rs.getInt("CARD_NUMBER")).toString();
+	    cardType = rs.getString("CARD_TYPE");
+	    cardExpMonth = rs.getString("CARD_EXP_MON");
+	    cardExpYear = rs.getString("CARD_EXP_YEAR");
+	    creatorId = rs.getInt("CREATOR_ID");
+	}
+	catch (ClassNotFoundException e) {
+	    e.printStackTrace();
+	}
+	catch (SQLException e) {
+	    e.printStackTrace();
 	}
     }
 

@@ -114,6 +114,25 @@ public class ESaintDaoHelper implements Serializable {
 	    throw se;
 	}
     }
+    
+    public ResultSet getUser(String username) throws ClassNotFoundException, SQLException{
+	try {
+	    Connection myConnection = createConnection();
+
+	    String queryString = "SELECT * FROM USERS WHERE USERNAME = ?";
+	    PreparedStatement preparedStatement = myConnection.prepareStatement(queryString);
+	    preparedStatement.clearParameters();
+	    preparedStatement.setString(1, username);
+
+	    return preparedStatement.executeQuery();
+	}
+	catch (ClassNotFoundException ce) {
+	    throw ce;
+	}
+	catch (SQLException se) {
+	    throw se;
+	}
+    }
 
     /**
      * Will return a list of all items in the ITEMS table.
