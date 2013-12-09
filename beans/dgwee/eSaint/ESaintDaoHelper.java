@@ -523,7 +523,7 @@ public class ESaintDaoHelper implements Serializable {
 	    Connection myConnection = createConnection();
 	    Statement statement = myConnection.createStatement();
 
-	    String queryString = "SELECT * FROM SALES_REPORT";
+	    String queryString = "SELECT * FROM SALES_REPORT ORDER BY CATEGORY";
 
 	    return statement.executeQuery(queryString);
 	}
