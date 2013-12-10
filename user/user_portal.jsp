@@ -25,11 +25,12 @@
 	<input type="submit" value="Selling Management">
 </form>
 
+< HEAD>
+<form method ="link" action="../Bidding_Management/bidding_management.jsp">
+	<input type="submit" value="Bidding Management">
+
 <form method ="link" action="itemsBidOn.jsp">
 	<input type="submit" value="Current Bids">
-</form>
-<form method ="link" action="search.jsp">
-	<input type="submit" value="Search Items">
 </form>
 <form method ="link" action="leave_feedback.jsp">
 	<input type="submit" value="Leave Feedback">
