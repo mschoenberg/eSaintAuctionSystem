@@ -20,8 +20,8 @@
 	<input type="submit" value="User Management">
 </form>
 
-<form method ="link" action="reports.jsp">
-	<input type="submit" value="Reports">
+<form method ="link" action="commissionreport.jsp">
+	<input type="submit" value="Commission Report">
 </form>
 
 <form method ="get" action="logout_action.jsp?type=1">

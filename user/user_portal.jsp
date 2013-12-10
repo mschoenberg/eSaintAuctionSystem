@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.sql.*"%>
+
 <jsp:useBean id="user" class="dgwee.eSaint.User" scope="session"/>
 <html>
 
@@ -16,7 +17,7 @@
 
 <font size="12">Welcome <%= user.getUsername() %>!</font>
 
-<form method="link" action="update_profile.jsp">
+<form method="link" action="updateprofile.jsp">
 	<input type="submit" value="Update Profile">
 </form>
 
@@ -24,10 +25,12 @@
 	<input type="submit" value="Selling Management">
 </form>
 
-<form method ="link" action="bidding_management.jsp">
-	<input type="submit" value="Bidding Management">
+<form method ="link" action="itemsBidOn.jsp">
+	<input type="submit" value="Current Bids">
 </form>
-
+<form method ="link" action="search.jsp">
+	<input type="submit" value="Search Items">
+</form>
 <form method ="link" action="leave_feedback.jsp">
 	<input type="submit" value="Leave Feedback">
 </form>

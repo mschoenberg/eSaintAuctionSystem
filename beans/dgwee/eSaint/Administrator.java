@@ -1,15 +1,15 @@
 package dgwee.eSaint;
 
 import java.io.*;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
- * @author Andrew Zurn
- * @version 0.1
- * 
- *          This class will be used as the bean class for a Administrator in the
- *          eSaintAuctionSystem.
- */
+* @author Andrew Zurn
+* @version 0.1
+*
+* This class will be used as the bean class for a Administrator in the
+* eSaintAuctionSystem.
+*/
 public class Administrator implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,66 +26,91 @@ public class Administrator implements Serializable {
     }
 
     public boolean login() {
-	boolean isAdmin = false;
-	
-	try {
-	    isAdmin = ESaintDaoHelper.loginAdmin(username, password);
-	}
-	catch (ClassNotFoundException e) {
-	    e.printStackTrace();
-	}
-	catch (SQLException e) {
-	    e.printStackTrace();
-	}
+        boolean isAdmin = false;
+        
+        try {
+         isAdmin = ESaintDaoHelper.loginAdmin(username, password);
+        }
+        catch (ClassNotFoundException e) {
+         e.printStackTrace();
+        }
+        catch (SQLException e) {
+         e.printStackTrace();
+        }
 
-	if ( isAdmin ) { // login is good, login
-	    this.isLoggedIn = true;
-	    return true;
-	}
-	else { // return false
-	    return false;
-	}
+        if ( isAdmin ) { // login is good, login
+         this.isLoggedIn = true;
+         return true;
+        }
+        else { // return false
+         return false;
+        }
     }
 
     public void logout() {
-	if (isLoggedIn == false) {
-	    throw new IllegalStateException("The user is not logged in!");
-	}
-	else {
-	    isLoggedIn = false;
-	}
+        if (isLoggedIn == false) {
+         throw new IllegalStateException("The user is not logged in!");
+        }
+        else {
+         isLoggedIn = false;
+        }
     }
 
     public int getUserId() {
-	return userId;
+        return userId;
     }
 
     public void setUserId(int userId) {
-	this.userId = userId;
+        this.userId = userId;
     }
 
     public String getUsername() {
-	return username;
+        return username;
     }
 
     public void setUsername(String username) {
-	this.username = username;
+        this.username = username;
     }
 
     public String getPassword() {
-	return password;
+        return password;
     }
 
     public void setPassword(String password) {
-	this.password = password;
+        this.password = password;
     }
 
     public boolean isLoggedIn() {
-	return isLoggedIn;
+        return isLoggedIn;
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
-	this.isLoggedIn = isLoggedIn;
+        this.isLoggedIn = isLoggedIn;
     }
 
+  public ResultSet getCommissionReport() throws ClassNotFoundException,SQLException{
+    ESaintDaoHelper dao = new ESaintDaoHelper();
+    try{
+      return dao.getCommissionReport(); 
+    }
+    catch (ClassNotFoundException ce) {
+      throw ce;
+    }
+    catch (SQLException se) {
+      throw se;
+    }
+  }
+
+  public ResultSet getSalesReport() throws ClassNotFoundException,SQLException{
+    ESaintDaoHelper dao = new ESaintDaoHelper();
+    try{
+      return dao.getSalesReport(); 
+    }
+    catch (ClassNotFoundException ce) {
+      throw ce;
+    }
+    catch (SQLException se) {
+      throw se;
+    }
+  }
 }

@@ -5,7 +5,7 @@
   if( type == 1 ){ //admin logging out
 %>
 
-<jsp:useBean id="admin" class="awzurn.Administrator" scope="session"/>
+<jsp:useBean id="admin" class="dgwee.eSaint.Administrator" scope="session"/>
 
 <%
     try{
@@ -19,7 +19,7 @@
   else{ //user logging out
 %>
 
-<jsp:useBean id="user" class="awzurn.User" scope="session"/>
+<jsp:useBean id="user" class="dgwee.eSaint.User" scope="session"/>
 
 <%
 
